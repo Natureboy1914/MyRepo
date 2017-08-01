@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/mvc
+          http://www.springframework.org/schema/mvc/spring-mvc.xsd
+          http://www.springframework.org/schema/tx
+          http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/aop  
+          http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+    <!-- Bean definitions go here -->
+     <bean id="vmIo" class="Vm.UserIo.VmUserIoImpl"/>
+   
+   <bean id="view" class="Vm.UserIo.VmView">
+       <constructor-arg ref="vmIo"/>
+   </bean>
+   
+   <bean id="auditDao" class="Vm.Dao.VmAuditDaoStubImpl"/>
+   
+   <bean id="vmDao" class="Vm.Dao.VmDaoFileImpl"/>
+   
+   <bean id="serviceLayer" class="Vm.Service.VmServiceImpl">
+       <constructor-arg ref="vmDao"/>
+   </bean>
+   
+   <bean id="controller" class="Vm.Controller.VMController">
+       <constructor-arg ref="serviceLayer"/>
+       <constructor-arg ref="view"/>
+       
+   </bean>
+   
+   <bean id="loggingAdvice" class="Vm.Advice.LoggingAdvice">
+       <constructor-arg ref="auditDao"/>
+   </bean>
+   
+   <aop:config>
+  <aop:aspect ref="loggingAdvice">
+      <aop:after-throwing
+          method="createAuditEntry"
+          throwing="e"
+          pointcut="execution(* Vm.Service.VmService.validateMoney(..))"
+       />
+         
+      <aop:after-throwing
+          method="createAuditEntry"
+          throwing="e"
+          pointcut="execution(* Vm.Service.VmService.validateInventory(..))"
+      />
+           
+    
+    </aop:aspect>
+</aop:config>
+   
+</beans>
+

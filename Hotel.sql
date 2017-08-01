@@ -1,0 +1,136 @@
+DROP DATABASE IF EXISTS Hotel;
+CREATE DATABASE IF NOT EXISTS Hotel;
+USE Hotel;
+
+CREATE TABLE Hotel.RoomRate
+(RoomRateID Int NOT NULL AUTO_INCREMENT,
+StartingDate DATE NOT NULL,
+EndingDate DATE NOT NULL,
+Rates DOUBLE NOT NULL,
+PRIMARY KEY (RoomRateID));
+
+CREATE TABLE Hotel.RoomType
+(RoomTypeID Int NOT NULL AUTO_INCREMENT,
+rType VARCHAR(45) NOT NULL,
+PRIMARY KEY (RoomTypeID));
+
+CREATE TABLE Hotel.RoomNum
+(RoomNumID INT NOT NULL AUTO_INCREMENT,
+FloorNum INT NOT NULL,
+OccupantsLimit INT NOT NULL,
+RoomRateID INT NOT NULL,
+RoomTypeID INT NOT NULL,
+FOREIGN KEY (RoomTypeID)
+REFERENCES RoomType(RoomTypeID),
+FOREIGN KEY (RoomRateID)
+REFERENCES RoomRate(RoomRateID),
+PRIMARY KEY (RoomNumID));
+
+
+CREATE TABLE Hotel.Amenities
+(AmenitiesID INT NOT NULL AUTO_INCREMENT,
+AmenityType VARCHAR(45) NOT NULL,
+PRIMARY KEY (AmenitiesID));
+
+
+CREATE TABLE Hotel.RMAmenities
+(RMAmenitiesID INT NOT NULL AUTO_INCREMENT,
+AmenitiesID INT NOT NULL,
+RoomNumID INT NOT NULL,
+FOREIGN KEY (AmenitiesID)
+REFERENCES Amenities(AmenitiesID),
+FOREIGN KEY (RoomNumID)
+REFERENCES RoomNum(RoomNumID),
+PRIMARY KEY (RMAmenitiesID));
+
+
+CREATE TABLE Hotel.PromotionCode
+(PromotionCodeID INT NOT NULL AUTO_INCREMENT,
+SeasonSale DOUBLE NOT NULL,
+StartingDate DATE NOT NULL,
+EndingDate DATE NOT NULL,
+PRIMARY KEY(PromotionCodeID));
+
+CREATE TABLE Hotel.Guest
+(GuestID INT NOT NULL AUTO_INCREMENT,
+NameOfGuest VARCHAR(45) NOT NULL,
+Age VARCHAR(45) NOT NULL,
+PRIMARY KEY(GuestID));
+
+CREATE TABLE Hotel.AddOns
+(AddOnsID INT NOT NULL AUTO_INCREMENT,
+StartingDate DATE NOT NULL,
+EndingDate DATE NOT NULL,
+TypeOfAddOns VARCHAR(45) NOT NULL,
+PRIMARY KEY(AddOnsID));
+
+
+CREATE TABLE Hotel.BillingDetails
+(BillingDetailsID INT NOT NULL AUTO_INCREMENT,
+Pricing DOUBLE NOT NULL,
+TypeOfItems VARCHAR(45) NOT NULL,
+PRIMARY KEY(BillingDetailsID));
+
+CREATE TABLE Hotel.Billing
+(BillingID INT NOT NULL AUTO_INCREMENT,
+Total DOUBLE NOT NULL,
+Tax DOUBLE NOT NULL,
+BillingDetailsID  INT NOT NULL,
+FOREIGN KEY (BillingDetailsID)
+REFERENCES BillingDetails(BillingDetailsID),
+PRIMARY KEY(BillingID));
+
+
+CREATE TABLE Hotel.ContactInfo
+(ContactInfoID INT NOT NULL AUTO_INCREMENT,
+NameOfCustomer VARCHAR(45) NOT NULL,
+PhoneNum VARCHAR(45) NOT NULL,
+Email VARCHAR(45) NOT NULL,
+PRIMARY KEY(ContactInfoID));
+
+
+CREATE TABLE Hotel.Reservation
+(ReservationID INT NOT NULL AUTO_INCREMENT,
+ContactInfoID INT NOT NULL,
+GuestID INT NOT NULL,
+PromotionCodeID INT NOT NULL,
+BillingID INT NOT NULL,
+AddOnsID INT NOT NULL,
+FOREIGN KEY (ContactInfoID)
+REFERENCES ContactInfo(ContactInfoID),
+FOREIGN KEY (GuestID)
+REFERENCES Guest(GuestID),
+FOREIGN KEY (PromotionCodeID)
+REFERENCES PromotionCode(PromotionCodeID),
+FOREIGN KEY (BillingID)
+REFERENCES Billing(BillingID),
+FOREIGN KEY (AddOnsID)
+REFERENCES AddOns(AddOnsID),
+PRIMARY KEY(ReservationID));
+
+CREATE TABLE Hotel.RoomReservation
+(RoomReservation INT NOT NULL AUTO_INCREMENT,
+RoomNumID INT NOT NULL,
+ReservationID INT NOT NULL,
+StartingDate DATE NOT NULL,
+EndingDate DATE NOT NULL,
+FOREIGN KEY (RoomNumID)
+REFERENCES RoomNum(RoomNumID),
+FOREIGN KEY (ReservationID)
+REFERENCES Reservation(ReservationID),
+PRIMARY KEY(RoomReservation));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

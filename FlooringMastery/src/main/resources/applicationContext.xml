@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/mvc
+          http://www.springframework.org/schema/mvc/spring-mvc.xsd
+          http://www.springframework.org/schema/tx
+          http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/aop  
+          http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+    
+    
+    <bean id="UserIo" class="FloorM.Ui.UserIoImpl"/>
+   
+    <bean id="FlView" class="FloorM.Ui.FlView">
+        <constructor-arg ref="UserIo"/>
+    </bean>
+   
+    <bean id="OrderAuditDao" class="FloorM.dao.OrderAuditDaoStubImpl"/>
+   
+    <bean id="OrderDao" class="FloorM.dao.OrderDaoImpl">
+        <constructor-arg value="programMode"/>
+    </bean>
+   
+    <bean id="ProductDao" class="FloorM.dao.ProductDaoImpl"/>
+    <bean id="TaxDao" class="FloorM.dao.TaxDaoImpl"/>
+   
+    <bean id="FlService" class="FloorM.service.FlServiceImpl">
+        <constructor-arg ref="OrderDao"/>
+        <constructor-arg ref="ProductDao"/>
+        <constructor-arg ref="TaxDao"/>
+    </bean>
+   
+    <bean id="controller" class="FloorM.controller.FlController">
+        <constructor-arg ref="FlService"/>
+        <constructor-arg ref="FlView"/>
+       
+    </bean>
+   
+    <bean id="loggingAdvice" class="Advice.LoggingAdvice">
+        <constructor-arg ref="OrderAuditDao"/>
+    </bean>     
+    
+</beans>

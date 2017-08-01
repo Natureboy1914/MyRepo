@@ -1,0 +1,8 @@
+BeefSticks::2.50::4
+Doritoz::2.50::10
+Minni Donutes::3.00::10
+Pretzels::1.50::10
+Crackers::1.50::9
+Snikers::2.00::10
+Gum::1.00::10
+TrailMix::1.00::10

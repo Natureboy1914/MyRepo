@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vending Machine</title>
+        <link href="css/bootstrap.css" rel="stylesheet">
+         <style>
+         form{
+           display:inline-block;
+           text-align: center;
+         }
+         button{
+           margin: 10px;
+         }
+         #items{
+           margin:10px;
+         }
+
+         </style>
+    </head>
+    <body>
+      <h1>Vending Machine</h1>
+      <hr/>
+<div class="container">
+
+
+          <div class="col-md-9 col-md-70" >
+              <div  id="items">
+              </div>
+<!-- jquery items -->
+          </div>
+          <div class="col-md-3 col-md-30">
+            <div clas="row">
+                    <form>
+                      <h2>Total $ In</h2>
+
+                      <input id="money-display" type="number" value="0" readonly></br>
+
+                      <div class="btn-group">
+                      <button type="button" id="add-dollar">
+                        Add Dollar
+                      </button>
+
+                      <button type="button" id="add-quarter">
+                        Add Quarter
+                      </button>
+                    </br>
+                      <button type="button" id="add-dime">
+                        Add Dime
+                      </button>
+
+                      <button type="button" id="add-nickel">
+                        Add Nickel
+                      </button>
+                    </div>
+                    </forum>
+                    <hr/>
+
+                    <form>
+                        <h2>Messages</h2>
+                        <input id="message-display" type="text" readonly></br>
+                        Item:
+                          <input id="item-display" type="text" readonly></br>
+
+                          <button type="button" id="make-purchase">
+                            Make Purchase
+                          </button>
+                    </form>
+                    <hr/>
+
+                    <form>
+                      <h2>Change</h2>
+                        <input id="change-display" type="text" readonly></br>
+
+                        <button type="button" id="change-return">
+                          Change Return
+                        </button>
+                    </form>
+              </div>
+
+    </div>
+          <script src="js/jquery-2.2.4.min.js"></script>
+	       <script src="js/bootstrap.js"></script>
+          <script src="js/home.js"></script>
+    </body>
+</html>
